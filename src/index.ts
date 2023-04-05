@@ -1,5 +1,5 @@
 import { request, gql } from "graphql-request";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload, SignOptions, Secret } from "jsonwebtoken";
 
 type Chain = "goerli" | "mumbai" | "matic";
 
@@ -18,33 +18,17 @@ interface StreamQueryResult {
   streams: Stream[];
 }
 
-interface AuthorizeStreamOptions {
-  chain?: Chain;
-  sender: string;
-  receiver: string;
-  token: string;
-}
-
-interface GenerateTokenOptions {
+interface StreamPayload {
   chain: Chain;
   sender: string;
   receiver: string;
   token: string;
-  secret: string;
-  expiresIn?: string | number;
+  [key: string]: any;
 }
-
-interface AuthorizeStreamResponse {
+interface AuthenticationResult {
   token: string;
-  redirectUrl: string;
+  stream: StreamPayload | JwtPayload;
 }
-
-interface AuthorizeStreamError {
-  code: string;
-  message: string;
-}
-
-type AuthorizeStreamResult = AuthorizeStreamResponse | AuthorizeStreamError;
 
 const defaultSubgraphUrls: Record<Chain, string> = {
   goerli:
@@ -55,20 +39,13 @@ const defaultSubgraphUrls: Record<Chain, string> = {
     "https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-matic"
 };
 
-// Check if the API key is authorized
-// const isApiKeyAuthorized = (apiKey: string) => whitelistedApiKeys.includes(apiKey);
-
-// Check if the request body has all the required parameters
-const isRequestBodyValid = (body: Record<string, unknown>) =>
-  ["sender", "receiver", "token"].every((param) => body.hasOwnProperty(param));
-
 // Retrieve streams using the Superfluid subgraph
 const getStreams = async ({
   chain = "goerli",
   sender,
   receiver,
   token
-}: AuthorizeStreamOptions): Promise<Stream[]> => {
+}: StreamPayload): Promise<Stream[]> => {
   const STREAMS_QUERY = gql`
     query GetStreams($first: Int, $where: Stream_filter) {
       streams(first: $first, where: $where) {
@@ -94,22 +71,19 @@ const getStreams = async ({
   return streams;
 };
 
-// Generate a JWT token with an expiration time of 1 hour
-function generateJwtToken({
-  chain,
-  sender,
-  receiver,
-  token,
-  secret,
-  expiresIn
-}: GenerateTokenOptions): string {
-  return jwt.sign({ chain, sender, receiver, token }, secret, {
-    expiresIn: expiresIn || "1h"
-  });
+export async function authenticateWithStream(streamPayload: StreamPayload, secret: Secret, jwtOptions: SignOptions): Promise<AuthenticationResult> {
+  if (!["chain", "sender", "receiver", "token"].every((param) => streamPayload.hasOwnProperty(param))) throw new Error("super-jwt: Missing required stream payload");
+  const streams = await getStreams(streamPayload);
+  if (!streams || streams.length === 0) throw new Error("super-jwt: No stream found to authenticate");
+  const jwtToken = jwt.sign(streamPayload, secret, jwtOptions);
+  return { token: jwtToken, stream: streamPayload };
 }
 
-function authorizeWithStream(streamOptions, jwtOptions) {
-
+export function verifyToken(jwtToken: string, secret: Secret): JwtPayload {
+  try {
+    const decoded = jwt.verify(jwtToken, secret) as JwtPayload;
+    return decoded;
+  } catch (err: unknown) {
+    throw new Error(`super-jwt: failed to verify token: ${err}`);
+  }
 }
-
-function verifyToken() { }
