@@ -3,23 +3,23 @@ import jwt, { JwtPayload, SignOptions, Secret } from "jsonwebtoken";
 
 type Chain = "goerli" | "mumbai" | "matic";
 
-interface Stream {
+export interface Stream {
   id: string;
 }
 
-interface StreamFilter {
-  sender: string;
-  receiver: string;
-  token: string;
-  currentFlowRate_gt: number;
-}
+// interface StreamFilter {
+//   sender: string;
+//   receiver: string;
+//   token: string;
+//   currentFlowRate_gt: number;
+// }
 
-interface StreamQueryResult {
+export interface StreamQueryResult {
   streams: Stream[];
 }
 
-interface StreamPayload {
-  chain: Chain;
+export interface StreamPayload {
+  chain: Chain | string;
   sender: string;
   receiver: string;
   token: string;
@@ -30,7 +30,7 @@ interface AuthenticationResult {
   stream: StreamPayload | JwtPayload;
 }
 
-const defaultSubgraphUrls: Record<Chain, string> = {
+const defaultSubgraphUrls: Record<Chain | string, string> = {
   goerli:
     "https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-goerli",
   mumbai:
