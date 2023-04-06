@@ -1,16 +1,20 @@
 {
   "name": "super-jwt",
-  "version": "0.0.3",
-  "description": "",
+  "version": "0.0.6",
+  "description": "Super-JWT helps to authenticate your users based on Superfluid streams using JSON Web Tokens (JWT)",
+  "author": "Salman Dabbakuti",
+  "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
     "test": "mocha --r ts-node/register 'test/**/*.ts'",
     "build": "tsc"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "superfluid",
+    "superjwt",
+    "superfluid-auth"
+  ],
   "dependencies": {
     "graphql": "^16.6.0",
     "graphql-request": "^5.2.0",
@@ -28,5 +32,12 @@
     "ts-node": "^10.9.1",
     "tslib": "^2.5.0",
     "typescript": "^5.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Salmandabbakuti/super-jwt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Salmandabbakuti/super-jwt/issues"
   }
 }
