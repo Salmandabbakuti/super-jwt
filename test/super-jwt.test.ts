@@ -9,7 +9,8 @@ const streamPayload = {
   chain: 'goerli',
   sender: '0xc7203561ef179333005a9b81215092413ab86ae9',
   receiver: '0x7348943c8d263ea253c0541656c36b88becd77b9',
-  token: '0xf2d68898557ccb2cf4c10c3ef2b034b2a69dad00'
+  token: '0xf2d68898557ccb2cf4c10c3ef2b034b2a69dad00',
+  currentFlowRate_gt: 1
 };
 const testSecret = 'supersecret';
 const testJwtOptions = { expiresIn: '1h' };
@@ -50,12 +51,13 @@ describe('verifyToken', () => {
 
   it('should return the decoded token payload', async () => {
     const { token: jwtToken } = await authenticateWithStream(streamPayload, testSecret, testJwtOptions);
-    const { chain, sender, receiver, token } = verifyToken(jwtToken, testSecret);
+    const { chain, sender, receiver, token, currentFlowRate_gt } = verifyToken(jwtToken, testSecret);
     const payload = {
       chain,
       sender,
       receiver,
-      token
+      token,
+      currentFlowRate_gt
     };
     expect(payload).to.deep.equal(streamPayload);
   });

@@ -41,10 +41,8 @@ const defaultSubgraphUrls: Record<Chain | string, string> = {
 
 // Retrieve streams using the Superfluid subgraph
 const getStreams = async ({
-  chain = "goerli",
-  sender,
-  receiver,
-  token
+  chain,
+  ...streamWhereParams
 }: StreamPayload): Promise<Stream[]> => {
   const STREAMS_QUERY = gql`
     query GetStreams($first: Int, $where: Stream_filter) {
@@ -61,10 +59,7 @@ const getStreams = async ({
     {
       first: 1,
       where: {
-        sender,
-        receiver,
-        token,
-        currentFlowRate_gt: 0
+        ...streamWhereParams
       }
     }
   );
@@ -72,9 +67,9 @@ const getStreams = async ({
 };
 
 export async function authenticateWithStream(streamPayload: StreamPayload, secret: Secret, jwtOptions: SignOptions): Promise<AuthenticationResult> {
-  if (!["chain", "sender", "receiver", "token"].every((param) => streamPayload.hasOwnProperty(param))) throw new Error("super-jwt: Missing required stream payload");
+  if (!["chain", "sender", "receiver", "token"].every((param) => streamPayload.hasOwnProperty(param))) throw new Error("super-jwt: Missing required stream payload params: chain, sender, receiver, token");
   const streams = await getStreams(streamPayload);
-  if (!streams || streams.length === 0) throw new Error("super-jwt: No stream found to authenticate");
+  if (!streams || streams.length === 0) throw new Error("super-jwt: No stream found to authenticate between sender and receiver");
   const jwtToken = jwt.sign(streamPayload, secret, jwtOptions);
   return { token: jwtToken, stream: streamPayload };
 }
