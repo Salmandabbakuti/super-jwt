@@ -1,20 +1,13 @@
 import { request, gql } from "graphql-request";
 import jwt, { JwtPayload, SignOptions, Secret } from "jsonwebtoken";
 
-type Chain = "goerli" | "mumbai" | "matic";
+export type Chain = "goerli" | "mumbai" | "matic";
 
-export interface Stream {
+interface Stream {
   id: string;
 }
 
-// interface StreamFilter {
-//   sender: string;
-//   receiver: string;
-//   token: string;
-//   currentFlowRate_gt: number;
-// }
-
-export interface StreamQueryResult {
+interface StreamQueryResult {
   streams: Stream[];
 }
 
@@ -25,7 +18,7 @@ export interface StreamPayload {
   token: string;
   [key: string]: any;
 }
-interface AuthenticationResult {
+export interface AuthenticationResult {
   token: string;
   stream: StreamPayload | JwtPayload;
 }
