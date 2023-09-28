@@ -1,5 +1,7 @@
 # SuperJWT
 
+![npm version](https://img.shields.io/badge/npm-0.0.7-brightgreen)
+
 Super-JWT is a Node.js package that helps authenticate users based on Superfluid streams using JSON Web Tokens (JWT).
 
 #### Installation
@@ -26,13 +28,13 @@ To authenticate a user with a Superfluid stream, use the `authenticateWithStream
 
 An object that represents the required parameters for authenticating a Superfluid stream. It has the following properties:
 
-`chain`: A Chain value that represents the Ethereum chain on which the Superfluid stream is created.
+`chain`: A Chain value that represents the chain on which the Superfluid stream is created. See [supported chains](#supported-chains) for more information.
 
-`sender`: A string that represents the Ethereum address of the sender of the stream.
+`sender`: A string that represents the ethereum address of the sender of the stream.
 
-`receiver`: A string that represents the Ethereum address of the receiver of the stream.
+`receiver`: A string that represents the ethereum address of the receiver of the stream.
 
-`token`: A string that represents the address of the ERC20 token used in the Superfluid stream. It can be the address of the underlying SuperToken.
+`token`: A string that represents the ethereum address of the SuperToken being used.
 
 In addition to the required parameters mentioned earlier, you can also pass any of the `where` parameters of the Superfluid subgraph `streams` query. This allows you to filter streams based on other properties such as `currentFlowRate_gt`, which is the flow rate in the stream. For more information on the available query parameters, you can refer to the [Superfluid subgraph documentation](https://thegraph.com/hosted-service/subgraph/superfluid-finance/protocol-v1-goerli).
 
@@ -90,6 +92,43 @@ console.log(decoded);
 // iat: 1680752577,
 // }
 ```
+
+#### Supported Chains
+
+Super-JWT supports the following chains:
+
+```ts
+type Chain =
+  | "goerli"
+  | "mumbai"
+  | "matic"
+  | "mainnet"
+  | "opgoerli"
+  | "arbgoerli"
+  | "fuji"
+  | "xdai"
+  | "optimism"
+  | "avalanche"
+  | "bsc"
+  | "celo"
+  | "base";
+```
+
+### Publishing
+
+To publish a new version of the package to npm, run the following command:
+
+```shell
+npm run publish
+```
+
+### Change Log
+
+#### 0.0.7
+
+- Added more chains to the supported chains list. see [supported chains](#supported-chains) for more information.
+- Throw an error if the chain is not supported instead of using default chain.
+- Better error handling.
 
 ### Safety
 
