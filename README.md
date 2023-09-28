@@ -119,7 +119,7 @@ type Chain =
 To publish a new version of the package to npm, run the following command:
 
 ```shell
-npm run publish
+npm publish
 ```
 
 ### Change Log
