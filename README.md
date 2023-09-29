@@ -1,6 +1,6 @@
 # SuperJWT
 
-![npm version](https://img.shields.io/badge/npm-0.0.7-brightgreen)
+![npm version](https://img.shields.io/badge/npm-0.0.9-brightgreen)
 
 Super-JWT is a Node.js package that helps authenticate users based on Superfluid streams using JSON Web Tokens (JWT).
 
@@ -9,7 +9,7 @@ Super-JWT is a Node.js package that helps authenticate users based on Superfluid
 To install Super-JWT, use npm:
 
 ```shell
-npm install super-jwt
+npm install super-jwt@latest
 ```
 
 ## Usage
@@ -119,10 +119,16 @@ type Chain =
 To publish a new version of the package to npm, run the following command:
 
 ```shell
+npm run build
+
 npm publish
 ```
 
 ### Change Log
+
+#### 0.0.9
+
+- Omit source and test files when publishing to npm to reduce package size.
 
 #### 0.0.7
 

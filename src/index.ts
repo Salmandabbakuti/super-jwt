@@ -102,7 +102,7 @@ export async function authenticateWithStream(
 ): Promise<AuthenticationResult> {
   const requiredParams = ["chain", "sender", "receiver", "token"];
 
-  if (!requiredParams.every((param) => param in streamPayload)) {
+  if (!requiredParams.every((param) => streamPayload.hasOwnProperty(param))) {
     throw new Error(
       "super-jwt: Missing required stream payload params: chain, sender, receiver, token"
     );
