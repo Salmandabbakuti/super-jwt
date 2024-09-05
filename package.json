@@ -1,6 +1,6 @@
 {
   "name": "super-jwt",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Super-JWT helps to authenticate your users based on Superfluid streams using JSON Web Tokens (JWT)",
   "author": "Salman Dabbakuti",
   "license": "MIT",
