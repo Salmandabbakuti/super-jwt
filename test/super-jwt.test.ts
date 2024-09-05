@@ -5,10 +5,10 @@ chai.use(chaiAsPromised);
 const { expect } = chai;
 
 const streamPayload = {
-  chain: "goerli" as Chain,
+  chain: "sepolia" as Chain,
   sender: "0xc7203561ef179333005a9b81215092413ab86ae9",
-  receiver: "0x7348943c8d263ea253c0541656c36b88becd77b9",
-  token: "0xf2d68898557ccb2cf4c10c3ef2b034b2a69dad00",
+  receiver: "0xdc7c5b449d4417a5aa01bf53ad280b1bedf4b078",
+  token: "0x9ce2062b085a2268e8d769ffc040f6692315fd2c",
   currentFlowRate_gt: 1
 };
 const testSecret = "supersecret";
@@ -31,7 +31,7 @@ describe("authenticateWithStream", () => {
 
   it("should throw an error if required stream payload fields are missing", async () => {
     const invalidStreamPayload = {
-      chain: "goerli",
+      chain: "sepolia",
       sender: "0xc7203561ef179333005a9b81215092413ab86ae9"
     } as typeof streamPayload;
     await expect(

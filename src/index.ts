@@ -2,13 +2,13 @@ import { request, gql } from "graphql-request";
 import jwt, { JwtPayload, SignOptions, Secret } from "jsonwebtoken";
 
 export type Chain =
-  | "goerli"
-  | "mumbai"
+  | "sepolia"
+  | "opsepolia"
+  | "fuji"
+  | "bsepolia"
+  | "scrsepolia"
   | "matic"
   | "mainnet"
-  | "opgoerli"
-  | "arbgoerli"
-  | "fuji"
   | "xdai"
   | "optimism"
   | "avalanche"
@@ -38,27 +38,24 @@ export interface AuthenticationResult {
 }
 
 const defaultSubgraphUrls: Record<Chain, string> = {
-  goerli:
-    "https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-goerli",
-  mumbai:
-    "https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-mumbai",
+  sepolia: "https://subgraph-endpoints.superfluid.dev/eth-sepolia/protocol-v1",
+  opsepolia:
+    "https://subgraph-endpoints.superfluid.dev/optimism-sepolia/protocol-v1",
+  fuji: "https://subgraph-endpoints.superfluid.dev/avalanche-fuji/protocol-v1",
+  bsepolia: "https://base-sepolia.subgraph.x.superfluid.dev/",
+  scrsepolia:
+    "https://subgraph-endpoints.superfluid.dev/scroll-sepolia/protocol-v1",
   matic:
-    "https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-matic",
-  mainnet:
-    "https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-eth-mainnet",
-  opgoerli:
-    "https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-optimism-goerli",
-  arbgoerli:
-    "https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-arbitrum-goerli",
-  fuji: "https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-avalanche-fuji",
-  xdai: "https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-xdai",
+    "https://subgraph-endpoints.superfluid.dev/polygon-mainnet/protocol-v1",
+  mainnet: "https://subgraph-endpoints.superfluid.dev/eth-mainnet/protocol-v1",
+  xdai: "https://subgraph-endpoints.superfluid.dev/xdai-mainnet/protocol-v1",
   optimism:
-    "https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-optimism-mainnet",
+    "https://subgraph-endpoints.superfluid.dev/optimism-mainnet/protocol-v1",
   avalanche:
-    "https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-avalanche-c",
-  bsc: "https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-bsc-mainnet",
-  celo: "https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-celo-mainnet",
-  base: "https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-base"
+    "https://subgraph-endpoints.superfluid.dev/avalanche-c/protocol-v1",
+  bsc: "https://subgraph-endpoints.superfluid.dev/bsc-mainnet/protocol-v1",
+  celo: "https://subgraph-endpoints.superfluid.dev/celo-mainnet/protocol-v1",
+  base: "https://subgraph-endpoints.superfluid.dev/base-mainnet/protocol-v1"
 };
 
 const STREAMS_QUERY = gql`

@@ -1,6 +1,6 @@
 # SuperJWT
 
-![npm version](https://img.shields.io/badge/npm-0.0.9-brightgreen)
+![npm version](https://img.shields.io/badge/npm-0.2.0-brightgreen)
 
 Super-JWT is a Node.js package that helps authenticate users based on Superfluid streams using JSON Web Tokens (JWT).
 
@@ -99,13 +99,13 @@ Super-JWT supports the following chains:
 
 ```ts
 type Chain =
-  | "goerli"
-  | "mumbai"
+  | "sepolia"
+  | "opsepolia"
+  | "fuji"
+  | "bsepolia"
+  | "scrsepolia"
   | "matic"
   | "mainnet"
-  | "opgoerli"
-  | "arbgoerli"
-  | "fuji"
   | "xdai"
   | "optimism"
   | "avalanche"
@@ -125,6 +125,11 @@ npm publish
 ```
 
 ### Change Log
+
+#### 0.2.0
+
+- Updated subgraph endpoints for supported chains.
+- Removed deprecated chains, added base sepolia, sepolia and opsepolia chains.
 
 #### 0.0.9
 
